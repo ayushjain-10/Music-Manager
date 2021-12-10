@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Music List{% endblock %}</h1>
+  
+    <a class="action" href="{{ url_for('music.create') }}">Add New Music</a>
+
+  <form method="get">
+    <label for="search_term">Search Term</label>
+    <input name="search_term" id="search_term" value="{{ request.form['search_term'] }}">
+
+    <div class="form-check form-check-inline">
+      <input class="form-check-input" type="radio" name="query_param" id="title" value="title">
+      <label class="form-check-label" for="title">
+        Search term: Title
+      </label>
+    </div>
+
+    <div class="form-check form-check-inline">
+      <input class="form-check-input" type="radio" name="query_param" id="album" value="album" checked>
+      <label class="form-check-label" for="album">
+        Search term: Album
+      </label>
+    </div>
+
+    <div class="form-check form-check-inline">
+      <input class="form-check-input" type="radio" name="query_param" id="artist" value="artist">
+      <label class="form-check-label" for="artist">
+        Search term: Artist
+      </label>
+    </div>
+    <input type="submit" value="Search">
+
+  </form>
+
+
+
+{% endblock %}
+
+{% block content %}
+  {% for post in posts %}
+    <article class="post">
+      <header>
+        <div>
+          <a class="action" href="{{ url_for('music.update', id=post['id']) }}">
+            <h1>{{ post['title'] }}</h1>
+          </a>
+          <div class="about">By {{ post['artist'] }} , Album: {{ post['album'] }} </div>
+        </div>
+      </header>
+    </article>
+    {% if not loop.last %}
+      <hr>
+    {% endif %}
+  {% endfor %}
+{% endblock %}
